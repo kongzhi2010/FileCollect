@@ -2,7 +2,8 @@
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@221.0.111.137:9912:orcl
+    # 10.18.48.11/221.0.111.137
+    url: jdbc:oracle:thin:10.18.48.11@:9912:orcl
     username: C##ICYP
     password: ICYP
   jpa:
@@ -11,5 +12,39 @@ spring:
     show-sql: true
   jackson:
     serialization: true
+  devtools: 
+      restart: 
+        #热部署生效
+        enabled: true
+        #设置重启的目录
+        #additional-paths: src/main/java
+        #classpath目录下的WEB-INF文件夹内容修改不重启
+        exclude: WEB-INF/**  
 server:
-  port: 9000
+  port: 9000 
+#ftp:
+#  server:
+#    info: sftp://10.20.16.5:22/test?delete=false&username=bdauser&password=kafka&delay=5s&move=done&readLock=rename
+#  local:
+#    dir: file:D:/log  
+#camel:
+#  springboot:
+#    main-run-controller: true
+#    
+#route: 
+#  parserfile: 
+#    info: ${ftp.local.dir}?delay=10s&move=done&readLock=rename
+#    dir:  ${ftp.local.dir}/done
+
+#sftp
+sftp:
+  username: bdauser
+  password: kafka
+  host: 10.20.16.5
+  port: 22
+  remote: /home/bdauser/test
+  local: D:/log
+  listFiles: PRODUCT.del|BALANCE.del
+  downTimer: 30 06 18 * * ?
+  productTimer: 0 0 2 * * ?
+  balanceTimer: 0 0 2 * * ?

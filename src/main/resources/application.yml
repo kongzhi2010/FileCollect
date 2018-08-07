@@ -1,17 +1,10 @@
-
+# 10.18.48.11/221.0.111.137
 spring:
   datasource:
-    driver-class-name: oracle.jdbc.driver.OracleDriver
-    # 10.18.48.11/221.0.111.137
-    url: jdbc:oracle:thin:10.18.48.11@:9912:orcl
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@221.0.111.137:9912:orcl
     username: C##ICYP
     password: ICYP
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-  jackson:
-    serialization: true
   devtools: 
       restart: 
         #热部署生效
@@ -20,6 +13,8 @@ spring:
         #additional-paths: src/main/java
         #classpath目录下的WEB-INF文件夹内容修改不重启
         exclude: WEB-INF/**  
+mybatis: 
+  type-aliases-package: com.neo.entity
 server:
   port: 9000 
 #ftp:
@@ -46,5 +41,9 @@ sftp:
   local: D:/log
   listFiles: PRODUCT.del|BALANCE.del
   downTimer: 30 06 18 * * ?
-  productTimer: 0 0 2 * * ?
-  balanceTimer: 0 0 2 * * ?
+product:
+  isopen: 1
+  productTimer: 00 46 21 * * ?
+balance: 
+  isopen: 1
+  balanceTimer: 0 0 4 * * ?

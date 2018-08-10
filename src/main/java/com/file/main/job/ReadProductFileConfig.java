@@ -35,14 +35,28 @@ public class ReadProductFileConfig {
     private String local;
     @Value("${product.isopen}")
     private Integer isopen;
+    @Value("${file.dates}")
+    private String[] dates;
     @Scheduled(cron = "${product.productTimer}") // 每天2点执行
     public void getToken() {
     	if(isopen==0) {
     		return;
     	}
-        log.info("product定时任务启动");
-		String trandate = G4Utils.getOneDate(Constants.NOMAL_Date, -1);// 0:当天  -1:上一天  1:下一天
-		StringBuffer sbpatch = new StringBuffer();
+    	log.info("product定时任务启动");
+    	if(dates != null && dates.length>0) {
+    		for(int i=0;i<dates.length;i++) {
+    			if(dates[i]!=null && dates[i].length()>0)
+    				scheduled(dates[i]);
+    		}
+    	}else {
+    		String trandate = G4Utils.getOneDate(Constants.NOMAL_Date, -1);// 0:当天  -1:上一天  1:下一天
+    		scheduled(trandate);
+    	}
+		
+		
+	}
+    private void scheduled(String trandate) {
+    	StringBuffer sbpatch = new StringBuffer();
 		sbpatch.append(local);
 		sbpatch.append("/");
 		sbpatch.append(trandate);
@@ -51,9 +65,9 @@ public class ReadProductFileConfig {
 		if(!src.exists()){
 			src.mkdir();
 		}
-		local = sbpatch.toString();
+		String localPath = sbpatch.toString();
 
-		String ibpsfile = local+"PRODUCT.del"; // 本地绝对路径IBPS文件 PRODUCT
+		String ibpsfile = localPath+"PRODUCT.del"; // 本地绝对路径IBPS文件 PRODUCT
 		// 文件入库
 		try {
 			String encoding = "UTF-8"; // 以GBK编码读取文件
@@ -63,6 +77,7 @@ public class ReadProductFileConfig {
 			line=br.readLine();
 			
 			while(line!=null){
+				try {
 				String[] dits = line.split("\\|"); // 逗号分隔
 				if(dits.length<11){
 					line=br.readLine();
@@ -97,22 +112,26 @@ public class ReadProductFileConfig {
 				HashMap<String,String> out = productMapper.getOne(map);
 				if(out == null){
 					productMapper.insert(map);
+				}else {
+					productMapper.update(map);
 				}
-				
+				}catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+					continue;
+				}finally {
+					line=br.readLine();
+				}
 				// 循环下一行
-	        	line=br.readLine();
 			}
-			log.debug("[{}]更新文件[{}]完成。",trandate,"product");
+			log.info("[{}]更新文件[{}]完成。",trandate,"product");
 			br.close();	
 		} catch (FileNotFoundException e) {
 			log.error("本地文件不存在[{}]，[{}]将不予导入IBPS文件。","product",trandate,e);
 		} catch (IOException e) {
 			log.error("读取本地文件失败[{}]，[{}]将不予导入IBPS文件。","product",trandate,e);
 		}
-		
-		
-	}
-    
+    }
 	private String TrimColon(String param){
 		String val = param;
 		if(val==null){

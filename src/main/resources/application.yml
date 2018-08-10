@@ -2,7 +2,7 @@
 spring:
   datasource:
     driverClassName: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@221.0.111.137:9912:orcl
+    url: jdbc:oracle:thin:@10.18.48.11:9912:orcl
     username: C##ICYP
     password: ICYP
   devtools: 
@@ -32,6 +32,9 @@ server:
 #    dir:  ${ftp.local.dir}/done
 
 #sftp
+file: 
+#20180727,20180802,20180807,20180808
+  dates: 
 sftp:
   username: bdauser
   password: kafka
@@ -39,11 +42,11 @@ sftp:
   port: 22
   remote: /home/bdauser/test
   local: D:/log
-  listFiles: PRODUCT.del|BALANCE.del
-  downTimer: 30 06 18 * * ?
+  listFiles: PRODUCT.del,BALANCE.del
+  downTimer: 30 28 21 * * ?
 product:
   isopen: 1
-  productTimer: 00 46 21 * * ?
+  productTimer: 00 29 21 * * ?
 balance: 
   isopen: 1
-  balanceTimer: 0 0 4 * * ?
+  balanceTimer: 30 29 21 * * ?

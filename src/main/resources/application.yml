@@ -30,7 +30,8 @@ server:
 #  parserfile: 
 #    info: ${ftp.local.dir}?delay=10s&move=done&readLock=rename
 #    dir:  ${ftp.local.dir}/done
-
+file: 
+  dates: 
 #sftp
 sftp:
   username: bdauser
@@ -39,7 +40,7 @@ sftp:
   port: 22
   remote: /home/bdauser/test
   local: D:/log
-  listFiles: PRODUCT.del|BALANCE.del
+  listFiles: PRODUCT.del|BALANCE.del|AVG_BALANCE.del
   downTimer: 30 06 18 * * ?
 product:
   isopen: 1
@@ -47,3 +48,7 @@ product:
 balance: 
   isopen: 1
   balanceTimer: 0 0 4 * * ?
+avgbalance: 
+  isopen: 1
+  avgbalanceTimer: 00 56 20 * * ?  
+  

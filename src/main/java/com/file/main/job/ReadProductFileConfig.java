@@ -60,7 +60,7 @@ public class ReadProductFileConfig {
 		sbpatch.append(local);
 		sbpatch.append("/");
 		sbpatch.append(trandate);
-		sbpatch.append("/");
+		sbpatch.append("/816/");
 		File src =  new File(sbpatch.toString());
 		if(!src.exists()){
 			src.mkdir();

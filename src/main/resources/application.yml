@@ -43,10 +43,23 @@ sftp:
   remote: /home/bdauser/test
   local: D:/log
   listFiles: PRODUCT.del,BALANCE.del
-  downTimer: 30 28 21 * * ?
+  downTimer: 00 42 08 * * ?
 product:
   isopen: 1
   productTimer: 00 29 21 * * ?
 balance: 
   isopen: 1
   balanceTimer: 30 29 21 * * ?
+#log
+logging: 
+  level: 
+    root: INFO
+    org: 
+      springframework: 
+        web: DEBUG
+      mybatis: ERROR
+  path: d:/log/
+  file: d:/log/gjkj.log
+  pattern: 
+    file: \%d{yyyy/MM/dd-HH:mm} [%thread] %-5level %logger- %msg%n
+  

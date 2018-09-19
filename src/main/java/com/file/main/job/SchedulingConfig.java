@@ -71,17 +71,17 @@ public class SchedulingConfig {
 		sbpatch.append(local);
 		sbpatch.append("/");
 		sbpatch.append(trandate);
-		sbpatch.append("/");
+		sbpatch.append("/816/");
 		File src =  new File(sbpatch.toString());
 		if(!src.exists()){
-			src.mkdir();
+			src.mkdirs();
 		}
 		String localPath = sbpatch.toString();
 		
 		StringBuffer remoteDirpatch = new StringBuffer();
 		remoteDirpatch.append("/");
 		remoteDirpatch.append(trandate);
-		remoteDirpatch.append("/");
+		remoteDirpatch.append("/816/");
 		String remoteDirPath = remoteDir + remoteDirpatch.toString();
 		// 下载文件 
 		boolean ret = false;
